@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: 'Offside', sans-serif !important;
+  letter-spacing: 1px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Targtes on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 7px;
+  height: 5px;
+  background: transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-transition: opacity 0.5s 0.5s ease-out;
+  transition: opacity 0.5s 0.5s ease-out;
+}
+
+*::-webkit-scrollbar:hover {
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(160 150 148 / 72%) !important;
+  border-radius: 3px;
+  -webkit-transition: background-color 150ms ease;
+  transition: background-color 150ms ease;
+}
