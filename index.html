@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="assets/svg/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Main-CSS -->
+  <link rel="stylesheet" href="assets/styles/output.css" />
+  <!-- RippleUi-CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rippleui@1.9.1/dist/css/styles.css" />
+  <!-- Tailwind-CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google-Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Offside&display=swap" rel="stylesheet" />
+  <!-- Tailwind-Config -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    };
+  </script>
+  <title>Benzene Checker</title>
+</head>
+
+<body class="min-h-screen bg-white dark:bg-zinc-900 scroll scroll--simple relative text-zinc-800">
+  <!-- Header-Start -->
+  <header class="grid place-items-center">
+    <div class="bg-white dark:bg-zinc-900 border-b border-slate-200 dark:border-zinc-700 w-full">
+      <div class="max-w-5xl container mx-auto p-4 lg:px-0 h-44 flex flex-col gap-2">
+        <h1 class="text-lg dark:text-white">Benzene <span class="text-[0.6rem] text-gray-500">By Raizel.</span></h1>
+        <p class="text-sm text-zinc-600 dark:text-zinc-300">“If you’re not remembered, then you never existed.” - Lain
+          Iwakura.
+        </p>
+      </div>
+    </div>
+  </header>
+  <!-- Header-End -->
+  <!-- Section-Start -->
+  <section class="p-4 absolute top-24 w-full bg-white dark:bg-zinc-900">
+    <div class="max-w-5xl container mx-auto flex flex-col gap-4">
+      <div
+        class="flex gap-8 flex-col bg-white dark:text-white dark:bg-zinc-900 rounded-md border border-slate-200 dark:border-zinc-700 border-g p-4">
+        <div class="flex justify-between">
+          <div class="flex flex-col gap-2">
+            <span class="text-md">Total Cards</span>
+            <span class="total-cards">0</span>
+          </div>
+          <div class="flex gap-4 justify-center">
+            <button type="button" class="flex" onclick="document.getElementsByTagName('body')[0].classList.add('overflow-hidden');
+                document.getElementById('code-generator-modal').classList.remove('hidden');
+              document.getElementById('code-generator-modal-overlay').classList.remove('hidden')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-file-code-2">
+                <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4" />
+                <polyline points="14 2 14 8 20 8" />
+                <path d="m9 18 3-3-3-3" />
+                <path d="m5 12-3 3 3 3" />
+              </svg>
+            </button>
+            <button type="button" class="flex" onclick="document.getElementsByTagName('body')[0].classList.add('overflow-hidden');
+                document.getElementById('settings-modal').classList.remove('hidden');
+                      document.getElementById('settings-modal-overlay').classList.remove('hidden')">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="22"
+                height="22" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path
+                  d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+                </path>
+                <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+              </svg>
+            </button>
+            <button type="button" class="flex" id="theme-toggle">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"
+                id="svg-light">
+                <path
+                  d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 hidden"
+                id="svg-dark">
+                <path fill-rule="evenodd"
+                  d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-4 md:gap-1">
+          <div class="flex gap-4 md:flex-col">
+            <hr class="border rounded-sm md:border-2 border-green-600 h-14 md:h-0 md:w-full" />
+            <div class="flex flex-col justify-center items-start gap-4">
+              <div class="flex items-center gap-2">
+                <span class="dot dot-success"></span>
+                <span class="leading-none">Live</span>
+              </div>
+              <span class="leading-none approved-count">0</span>
+            </div>
+          </div>
+          <div class="flex gap-4 md:flex-col">
+            <hr class="border rounded-sm md:border-2 border-red-600 h-14 md:h-0 md:w-full" />
+            <div class="flex flex-col justify-center items-start gap-4">
+              <div class="flex items-center gap-2">
+                <span class="dot dot-error"></span>
+                <span class="leading-none">Dead</span>
+              </div>
+              <span class="leading-none declined-count">0</span>
+            </div>
+          </div>
+          <div class="flex gap-4 md:flex-col">
+            <hr class="border rounded-sm md:border-2 border-orange-400 h-14 md:h-0 md:w-full" />
+            <div class="flex flex-col justify-center items-start gap-4">
+              <div class="flex items-center gap-2">
+                <span class="dot dot-warning"></span>
+                <span class="leading-none">Checked</span>
+              </div>
+              <span class="leading-none checked-count">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="max-w-5xl container mx-auto flex gap-8 flex-col bg-white dark:text-white dark:bg-zinc-900 rounded-md border border-slate-200 dark:border-zinc-700 border-g p-4">
+        <span class="text-center text-zinc-600 dark:text-white" id="statusQueue"> Status: Idle...</span>
+      </div>
+      <div class="grid lg:grid-cols-2 grid-cols-1 gap-6">
+        <!-- Textarea-Card-Start -->
+        <div class="flex flex-col max-w-full md:w-full gap-6">
+          <!-- Textarea-Holder-Start -->
+          <div
+            class="card bg-white shadow-none rounded-md max-w-full border border-slate-200 dark:border-zinc-700 dark:bg-zinc-900">
+            <div class="card-body p-0">
+              <textarea id="card-list-textarea"
+                class="textarea w-full p-6 max-w-full bg-transparent text-zinc-600 resize-none h-96 outline-none rounded-none border-none text-center dark:text-white"
+                placeholder="Put Your Cards Here"></textarea>
+            </div>
+          </div>
+          <!-- Textarea-Holder-End -->
+          <!-- Button-Control-Group-Start -->
+          <div class="flex gap-4">
+            <button type="submit" id="start-button"
+              class="btn bg-green-700 hover:bg-green-800 text-white rounded-md w-1/3 before:border-white before:border-t-transparent">
+              Start
+            </button>
+            <button type="submit" id="stop-button"
+              class="btn bg-red-700 hover:bg-red-800 text-white rounded-md w-1/3">Stop</button>
+            <button class="btn rounded-md bg-sky-700 hover:bg-sky-800 text-white w-1/3" onclick="document.getElementsByTagName('body')[0].classList.add('overflow-hidden');
+                document.getElementById('card-generator-modal').classList.remove('hidden');
+                  document.getElementById('card-generator-modal-overlay').classList.remove('hidden')">
+              Generate
+            </button>
+          </div>
+          <!-- Button-Control-Group-End -->
+        </div>
+        <!-- Textarea-Card-End -->
+        <!-- Card-Wrapper-Start -->
+        <div class="flex flex-col gap-4 lg:gap-11">
+          <!-- Approved-Card-Start -->
+          <div
+            class="card py-2 bg-white shadow-none max-w-full rounded-md border border-slate-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white">
+            <div class="flex justify-between">
+              <div class="card-body">
+                <div class="flex gap-2">
+                  <span class="leading-none">Approved -</span>
+                  <span class="leading-none approved-count">0</span>
+                </div>
+              </div>
+              <div class="flex gap-4 px-4">
+                <button type="button" onclick="document.getElementsByTagName('body')[0].classList.add('overflow-hidden');
+                    document.getElementById('modal-approved').classList.remove('hidden');
+                    document.getElementById('modal-approved-overlay').classList.remove('hidden')">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-window-maximize"
+                    width="20" height="20" viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M3 16m0 1a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1z"></path>
+                    <path d="M4 12v-6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-6"></path>
+                    <path d="M12 8h4v4"></path>
+                    <path d="M16 8l-5 5"></path>
+                  </svg>
+                </button>
+                <button type="button" class="copy-button-approved">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="20"
+                    height="20" viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
+                    <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Approved-Card-End -->
+          <!-- Approved-CCN-Card-Start -->
+          <div
+            class="card py-2 bg-white shadow-none max-w-full rounded-md border border-slate-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white">
+            <div class="flex justify-between">
+              <div class="card-body">
+                <div class="flex gap-2">
+                  <span class="leading-none">Approved-CCN -</span>
+                  <span class="leading-none approved-ccn-count">0</span>
+                </div>
+              </div>
+              <div class="flex gap-4 px-4">
+                <button type="button" onclick="document.getElementsByTagName('body')[0].classList.add('overflow-hidden');
+                    document.getElementById('modal-approved-ccn').classList.remove('hidden');
+                    document.getElementById('modal-approved-ccn-overlay').classList.remove('hidden')">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-window-maximize"
+                    width="20" height="20" viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M3 16m0 1a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1z"></path>
+                    <path d="M4 12v-6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-6"></path>
+                    <path d="M12 8h4v4"></path>
+                    <path d="M16 8l-5 5"></path>
+                  </svg>
+                </button>
+                <button type="button" class="copy-button-approved-ccn">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="20"
+                    height="20" viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
+                    <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Approved-CCN-Card-End -->
+          <!-- Declined-Card-Start -->
+          <div
+            class="card py-2 bg-white shadow-none max-w-full rounded-md border border-slate-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white">
+            <div class="flex justify-between">
+              <div class="card-body">
+                <div class="flex gap-2">
+                  <span class="leading-none">Declined -</span>
+                  <span class="leading-none declined-count">0</span>
+                </div>
+              </div>
+              <div class="flex gap-4 px-4">
+                <button type="button" onclick="document.getElementsByTagName('body')[0].classList.add('overflow-hidden');
+                    document.getElementById('modal-declined').classList.remove('hidden');
+                    document.getElementById('modal-declined-overlay').classList.remove('hidden')">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-window-maximize"
+                    width="20" height="20" viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M3 16m0 1a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1z"></path>
+                    <path d="M4 12v-6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-6"></path>
+                    <path d="M12 8h4v4"></path>
+                    <path d="M16 8l-5 5"></path>
+                  </svg>
+                </button>
+                <button type="button" class="copy-button-declined">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="20"
+                    height="20" viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
+                    <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Declined-Card-End -->
+        </div>
+        <!-- Card-Wrapper-End -->
+      </div>
+    </div>
+  </section>
+  <!-- Section-End -->
+  <!-- Modal-Wrappers-Start -->
+  <modals>
+    <!-- Settings-Modal-Start -->
+    <div class="settings-modal-wrapper">
+      <div id="settings-modal-overlay" class="fixed inset-0 bg-black opacity-50 hidden"></div>
+      <div id="settings-modal" class="fixed z-10 inset-0 hidden">
+        <div class="flex items-center justify-center min-h-screen px-4">
+          <div
+            class="w-full sm:w-3/5 md:w-6/12 lg:w-5/12 xl:w-4/12 2xl:w-3/12 p-6 border border-slate-200 dark:border-zinc-800 dark:text-white dark:bg-zinc-900 bg-white rounded-md shadow-lg">
+            <div class="mb-[2rem] flex justify-between items-center">
+              <h2 class="text-md font-bold">Settings</h2>
+              <div class="flex gap-2">
+                <button type="button" onclick="document.getElementsByTagName('body')[0].classList.remove('overflow-hidden');
+                    document.getElementById('settings-modal').classList.add('hidden');
+                        document.getElementById('settings-modal-overlay').classList.add('hidden')">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="20" height="20"
+                    viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M18 6l-12 12"></path>
+                    <path d="M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="form-field grid grid-cols-2 gap-x-4 gap-y-8">
+                <div class="flex flex-col gap-2 col-span-2">
+                  <label class="form-label text-zinc-800 dark:text-white">Choose Gate</label>
+                  <select id="gate-selector"
+                    class="select max-w-full w-full bg-white text-zinc-600 border-2 border-zinc-300 rounded-md focus-visible:outline-none dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"></select>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <label class="form-label text-zinc-800 dark:text-white">Chat Id</label>
+                  <input id="chatId-for-telegramStatus"
+                    class="input rounded-md bg-white text-zinc-800 border-2 border-zinc-300 focus-visible:outline-none dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
+                    placeholder="Chat Id" />
+                </div>
+                <div class="flex flex-col gap-2">
+                  <label class="form-label text-zinc-800 dark:text-white">Bot Token</label>
+                  <input id="telegram_bot_token"
+                    class="input max-w-full rounded-md bg-white text-zinc-800 border-2 border-zinc-300 focus-visible:outline-none dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
+                    placeholder="Bot Token" />
+                </div>
+                <div class="flex flex-col gap-2 col-span-2">
+                  <div class="flex gap-1">
+                    <label class="form-label text-zinc-800 dark:text-white">Proxy</label>
+                    <input id="proxy-toggle" type="checkbox" class="switch switch-ghost-primary" />
+                  </div>
+                  <textarea id="proxy-list-textarea"
+                    class="textarea max-w-full w-full resize-none ounded-md bg-white text-zinc-800 border-2 border-zinc-300 focus-visible:outline-none dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
+                    rows="7" placeholder="ProxyHost:Port:Username:Password"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Settings-Modal-End -->
+    <!-- Card-Generator-Modal-Start -->
+    <div class="card-generator-modal-wrapper">
+      <div id="card-generator-modal-overlay" class="fixed inset-0 bg-black opacity-50 hidden"></div>
+      <div id="card-generator-modal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+        <div class="flex items-center justify-center min-h-screen px-4">
+          <div
+            class="border 2xl:w-3/12 border-slate-200 dark:border-zinc-800 dark:text-white dark:bg-zinc-900 bg-white rounded-md shadow-lg p-6">
+            <div class="mb-12">
+              <h2 class="text-md font-bold">Benzene Card Generator</h2>
+            </div>
+            <div class="mb-4">
+              <div class="form-group gap-8">
+                <div class="form-field">
+                  <label class="form-label text-zinc-800 dark:text-white">Your bin</label>
+                  <input id="binInGenerator" placeholder="531260xxxxxxxxxx" type="bin"
+                    class="input max-w-full rounded-md text-zinc-800 border-2 border-zinc-300 bg-white focus-visible:outline-none dark:bg-zinc-800 dark:border-zinc-700 dark:text-white" />
+                  <label class="form-label hidden" id="binInGenerator-error">
+                    <span class="form-label-alt text-rose-500">Please enter a valid bin.</span>
+                  </label>
+                </div>
+                <div class="flex gap-4 w-full">
+                  <div class="form-field w-1/2">
+                    <label class="form-label text-zinc-800 dark:text-white">Month</label>
+                    <select id="monthInGenerator"
+                      class="select text-zinc-800 border-2 border-zinc-300 bg-white rounded-md focus-visible:outline-none dark:bg-zinc-800 dark:border-zinc-700 dark:text-white">
+                      <option>Random</option>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                      <option>6</option>
+                      <option>7</option>
+                      <option>8</option>
+                      <option>9</option>
+                      <option>10</option>
+                      <option>11</option>
+                      <option>12</option>
+                    </select>
+                  </div>
+                  <div class="form-field w-1/2">
+                    <label class="form-label text-zinc-800 dark:text-white">Year</label>
+                    <select id="yearInGenerator"
+                      class="select rounded-md text-zinc-800 border-2 border-zinc-300 bg-white focus-visible:outline-none dark:bg-zinc-800 dark:border-zinc-700 dark:text-white">
+                      <option>Random</option>
+                      <option>2023</option>
+                      <option>2024</option>
+                      <option>2025</option>
+                      <option>2026</option>
+                      <option>2027</option>
+                      <option>2028</option>
+                      <option>2029</option>
+                      <option>2030</option>
+                      <option>2031</option>
+                      <option>2032</option>
+                      <option>2033</option>
+                      <option>2034</option>
+                      <option>2035</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="flex gap-4">
+                  <div class="form-field">
+                    <label class="form-label text-zinc-800 dark:text-white">CVV</label>
+                    <input id="cvvInGenerator" placeholder="Random" type="cvv"
+                      class="input max-w-full text-zinc-800 border-2 border-zinc-300 bg-white rounded-md focus-visible:outline-none dark:bg-zinc-800 dark:border-zinc-700 dark:text-white" />
+                  </div>
+                  <div class="form-field">
+                    <label class="form-label text-zinc-800 dark:text-white">Quantity</label>
+                    <input id="quantityInGenerator" placeholder="Random" type="quantity"
+                      class="input max-w-full text-zinc-800 border-2 border-zinc-300 bg-white rounded-md focus-visible:outline-none dark:bg-zinc-800 dark:border-zinc-700 dark:text-white" />
+                  </div>
+                </div>
+                <div class="form-control flex justify-end mt-4">
+                  <div class="flex gap-4">
+                    <button id="randomCardGenerator"
+                      onclick="document.getElementsByTagName('body')[0].classList.remove('overflow-hidden');"
+                      type="submit" class="bg-green-700 hover:bg-green-800 text-white py-2 px-8 rounded-md">
+                      Submit
+                    </button>
+                    <button class="bg-red-700 hover:bg-red-800 text-white py-2 px-8 rounded-md" onclick="document.getElementsByTagName('body')[0].classList.remove('overflow-hidden');
+                        document.getElementById('card-generator-modal').classList.add('hidden');
+                              document.getElementById('card-generator-modal-overlay').classList.add('hidden')
+                              document.getElementById('binInGenerator-error')?.classList.add('hidden');">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Card-Generator-Modal-End -->
+    <!-- Code-Generator-Modal-Start -->
+    <div class="code-generator-modal-wrapper" class="flex items-center justify-center">
+      <div id="code-generator-modal-overlay" class="fixed inset-0 bg-black opacity-50 hidden"></div>
+      <div id="code-generator-modal" class="fixed z-10 inset-0 flex justify-center items-center hidden">
+        <div class="flex items-center justify-center h-full w-full px-4">
+          <div
+            class="w-full relative lg:w-8/12 border border-slate-200 dark:border-zinc-800 dark:text-white dark:bg-zinc-900 bg-white rounded-md shadow-lg">
+            <div class="sticky top-0 bg-white dark:bg-zinc-900 p-6 flex justify-between items-center">
+              <h2 class="text-md font-bold flex gap-2">Code Generator</h2>
+              <button type="button" onclick="document.getElementsByTagName('body')[0].classList.remove('overflow-hidden');
+                  document.getElementById('code-generator-modal').classList.add('hidden');
+                              document.getElementById('code-generator-modal-overlay').classList.add('hidden')
+                              document.getElementById('binInGenerator-error')?.classList.add('hidden');">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="20" height="20"
+                  viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M18 6l-12 12"></path>
+                  <path d="M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="mb-4 px-6">
+              <div class="form-group gap-8">
+                <div class="grid grid-rows-2 gap-2 lg:grid-cols-2 lg:grid-rows-1">
+                  <!-- Textarea-Copied-NOdeJs-Start -->
+                  <div
+                    class="card bg-white shadow-none rounded-md max-w-full border-2 border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900">
+                    <div class="card-body p-0">
+                      <textarea id="codegen-textarea"
+                        class="textarea w-full p-6 max-w-full text-zinc-800 bg-transparent resize-none h-[15rem] lg:h-96 outline-none rounded-none border-none text-center dark:text-white"
+                        placeholder="Put Your Curl-Bash Code Here"></textarea>
+                    </div>
+                  </div>
+                  <!-- Textarea-Copied-NOdeJs-End -->
+                  <!-- Textarea-NOdeJs-Result-Start -->
+                  <div
+                    class="card bg-white shadow-none rounded-md max-w-full border-2 border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900">
+                    <div class="card-body p-0">
+                      <textarea id="codegen_result-textarea"
+                        class="textarea w-full p-6 max-w-full bg-transparent text-zinc-800 resize-none h-[15rem] lg:h-96 outline-none rounded-none border-none text-center dark:text-white"
+                        placeholder="Curlz Converted Result"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <!-- Textarea-NOdeJs-Result-End -->
+                <div class="form-control flex justify-end mt-4">
+                  <div class="flex gap-4">
+                    <button id="CodeGenerator" type="submit"
+                      class="bg-green-700 hover:bg-emerald-800 text-white py-2 px-8 rounded-md">
+                      Submit
+                    </button>
+                    <button id="CodeGeneratorClear"
+                      class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-8 rounded-md">Clear</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Code-Generator-Modal-End -->
+    <!-- Approved-Section-Modal-Start -->
+    <div id="approved-modal-wrapper" class="flex items-center justify-center">
+      <div id="modal-approved-overlay" class="fixed inset-0 bg-black opacity-50 hidden"></div>
+      <div id="modal-approved" class="fixed z-10 inset-0 flex justify-center items-center hidden">
+        <div class="flex items-center justify-center h-full w-full px-4">
+          <div
+            class="w-full relative lg:w-4/6 xl:w-1/2 border border-slate-200 dark:border-zinc-800 dark:text-white dark:bg-zinc-900 bg-white rounded-md shadow-lg">
+            <div class="sticky top-0 bg-white dark:bg-zinc-900 p-6 flex justify-between items-center">
+              <h2 class="text-md font-bold flex gap-2">
+                <span class="leading-none">Approved -</span>
+                <span class="leading-none approved-count">0</span>
+              </h2>
+              <div class="flex gap-2">
+                <button type="button" class="copy-button-approved">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="20"
+                    height="20" viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
+                    <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path>
+                  </svg>
+                </button>
+                <button type="button" onclick="document.getElementsByTagName('body')[0].classList.remove('overflow-hidden');
+                    document.getElementById('modal-approved').classList.add('hidden');
+                    document.getElementById('modal-approved-overlay').classList.add('hidden')">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="20" height="20"
+                    viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M18 6l-12 12"></path>
+                    <path d="M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="px-6 overflow-y-auto max-h-[40rem] min-h-[5rem] h-fit" id="approved-card-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Approved-Section-Modal-End -->
+    <!-- Approved-CCN-Section-Modal-Start -->
+    <div id="approved-ccn-modal-wrapper" class="flex items-center justify-center">
+      <div id="modal-approved-ccn-overlay" class="fixed inset-0 bg-black opacity-50 hidden"></div>
+      <div id="modal-approved-ccn" class="fixed z-10 inset-0 flex justify-center items-center hidden">
+        <div class="flex items-center justify-center h-full w-full px-4">
+          <div
+            class="w-full relative lg:w-4/6 xl:w-1/2 border border-slate-200 dark:border-zinc-800 dark:text-white dark:bg-zinc-900 bg-white rounded-md shadow-lg">
+            <div class="sticky top-0 bg-white dark:bg-zinc-900 p-6 flex justify-between items-center">
+              <h2 class="text-md font-bold flex gap-2">
+                <span class="leading-none">Approved-CCN -</span>
+                <span class="leading-none approved-ccn-count">0</span>
+              </h2>
+              <div class="flex gap-2">
+                <button type="button" class="copy-button-approved-ccn">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="20"
+                    height="20" viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
+                    <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path>
+                  </svg>
+                </button>
+                <button type="button" onclick="document.getElementsByTagName('body')[0].classList.remove('overflow-hidden');
+                    document.getElementById('modal-approved-ccn').classList.add('hidden');
+                    document.getElementById('modal-approved-ccn-overlay').classList.add('hidden')">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="20" height="20"
+                    viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M18 6l-12 12"></path>
+                    <path d="M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="px-6 overflow-y-auto max-h-[40rem] min-h-[5rem] h-fit" id="approved-ccn-card-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Approved-CCN-Section-Modal-End -->
+    <!-- Declined-Section-Modal-Start -->
+    <div id="declined-modal-wrapper" class="flex items-center justify-center">
+      <div id="modal-declined-overlay" class="fixed inset-0 bg-black opacity-50 hidden"></div>
+      <div id="modal-declined" class="fixed z-10 inset-0 flex justify-center items-center hidden">
+        <div class="flex items-center justify-center h-full w-full px-4">
+          <div
+            class="w-full relative lg:w-4/6 xl:w-1/2 border border-slate-200 dark:border-zinc-800 dark:text-white dark:bg-zinc-900 bg-white rounded-md shadow-lg">
+            <div class="sticky top-0 bg-white dark:bg-zinc-900 p-6 flex justify-between items-center">
+              <h2 class="text-md font-bold flex gap-2">
+                <span class="leading-none">Declined -</span>
+                <span class="leading-none declined-count">0</span>
+              </h2>
+              <div class="flex gap-2">
+                <button type="button" class="copy-button-declined">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="20"
+                    height="20" viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"></path>
+                    <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"></path>
+                  </svg>
+                </button>
+                <button type="button" onclick="document.getElementsByTagName('body')[0].classList.remove('overflow-hidden');
+                    document.getElementById('modal-declined').classList.add('hidden');
+                    document.getElementById('modal-declined-overlay').classList.add('hidden')">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="20" height="20"
+                    viewBox="0 0 24 24" stroke-width="1.825" stroke="currentColor" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M18 6l-12 12"></path>
+                    <path d="M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="px-6 overflow-y-auto max-h-[40rem] min-h-[5rem] h-fit" id="declined-card-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Declined-Section-Modal-End -->
+  </modals>
+  <!-- Modal-Wrappers-End -->
+  <script src="https://code.jquery.com/jquery-3.6.3.slim.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  <script src="assets/scripts/cardGeneratorHandler.js"></script>
+  <script type="module" src="assets/scripts/mainHandler.js"></script>
+  <script src="assets/scripts/themeHandler.js"></script>
+  <script src="assets/scripts/copyHandler.js"></script>
+  <script src="assets/scripts/codeGenerator.js"></script>
+  <script type="module" src="assets/scripts/settingsHandler.js"></script>
+</body>
+
+</html>
