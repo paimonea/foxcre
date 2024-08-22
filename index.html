@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Card Checker by Levnar</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner"
+            class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+        <!-- Form Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="px-4 absolute top-24 w-full mb-4">
+                <div class="bg-secondary rounded p-2">
+                    <h5 class="text-center">Card Checker by <a href="https://t.me/twistniranvel"
+                            target="_blank">Levnar</a>
+                    </h5>
+                </div>
+            </div>
+            <div class="px-4 absolute top-24 w-full mb-4">
+                <div class="bg-secondary rounded h-100 p-4">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                        <label class="form-check-label" id="flexSwitchCheckDefaultLabel"
+                            for="flexSwitchCheckDefault">CCN</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="cardsInput"
+                            style="height: 214px;"></textarea>
+                        <label for="cardsInput">Put Your Card List Here</label>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col">
+                            <button type="submit" id="start" onclick="start()" class="btn btn-success w-100">START</button>
+                        </div>
+                        <div class="col">
+                            <button type="submit" onclick="document.getElementById('card-generator-modal').classList.remove('hidden'); document.getElementById('card-generator-modal-overlay').classList.remove('hidden')" class="btn btn-info w-100">GENERATE</button>
+                        </div>
+                        <div class="col">
+                            <button type="submit" onclick="stopChecker()" class="btn btn-danger w-100">STOP</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row g-4">
+                        <div class="col">
+                            <select id="gate" class="form-select" aria-label="Default select example">
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input class="form-control" type="text" placeholder="TOKEN HERE"
+                                aria-label="default input example" id="token">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row g-4">
+                        <div class="col-8"> <!-- Use col-8 to make it 70% wider (8/12) -->
+                            <div class="p-2 mb-2 bg-danger rounded text-white d-flex justify-content-between">
+                                <span style="margin-right: auto;">STATUS:</span>
+                                <span style="margin-left: auto;" id="status">UNSTARTED</span>
+                            </div>
+                        </div>
+                        <div class="col-4"> <!-- Use col-auto for the second column to adjust automatically -->
+                            <button type="submit" onclick="clearall()" class="btn btn-warning w-100">CLEAR</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="px-4 absolute top-24 w-full mb-4">
+                <div class="bg-secondary rounded h-100 p-4">
+                    <div class="pg-bar d-flex justify-content-between">
+                        <h6 style="margin-right: auto;">Total:</h6>
+                        <h6 style="margin-left: auto;" id="totalCount">0</h6>
+                    </div>
+                    <div class="progress mb-3 fixed-progress">
+                        <div class="progress-bar progress-bar-striped bg-info fixed-progress" id="prog-bar-total"
+                            role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="pg-bar d-flex justify-content-between">
+                        <h6 style="margin-right: auto;">Live:</h6>
+                        <h6 style="margin-left: auto;" id="liveCount">0</h6>
+                    </div>
+                    <div class="progress mb-3 fixed-progress">
+                        <div class="progress-bar progress-bar-striped bg-success fixed-progress" id="prog-bar-live"
+                            role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="pg-bar d-flex justify-content-between">
+                        <h6 style="margin-right: auto;">Dead:</h6>
+                        <h6 style="margin-left: auto;" id="deadCount">0</h6>
+                    </div>
+                    <div class="progress mb-3 fixed-progress">
+                        <div class="progress-bar progress-bar-striped fixed-progress" id="prog-bar-dead"
+                            role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="pg-bar d-flex justify-content-between">
+                        <h6 style="margin-right: auto;">Checked:</h6>
+                        <h6 style="margin-left: auto;">
+                            <span id="checkedCount">0</span> / <span id="requestCount">0</span>
+                        </h6>
+                    </div>
+                    <div class="progress fixed-progress">
+                        <div class="progress-bar progress-bar-striped bg-warning fixed-progress" id="prog-bar-checked"
+                            role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="px-4 absolute top-24 w-full mb-4">
+                <div class="bg-secondary rounded h-100 p-4">
+                    <!-- Tabs Navs Start -->
+                    <ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="ex1-tab-1" data-mdb-toggle="tab" href="#ex1-tabs-1"
+                                role="tab" aria-controls="ex1-tabs-1" aria-selected="true">
+                                Live - <span id="liveCountRes">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="ex1-tab-2" data-mdb-toggle="tab" href="#ex1-tabs-2" role="tab"
+                                aria-controls="ex1-tabs-2" aria-selected="false">
+                                Dead - <span id="deadCountRes">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="ex1-tab-3" data-mdb-toggle="tab" href="#ex1-tabs-3" role="tab"
+                                aria-controls="ex1-tabs-3" aria-selected="false">
+                                CCN - <span id="ccnCountRes">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="ex1-tab-4" data-mdb-toggle="tab" href="#ex1-tabs-4" role="tab"
+                                aria-controls="ex1-tabs-4" aria-selected="false">
+                                None - <span id="noneCountRes">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Tabs Navs End -->
+
+                    <!-- Tabs Content Start -->
+                    <div class="tab-content" id="ex1-content">
+                        <div class="tab-pane fade show active" id="ex1-tabs-1" role="tabpanel"
+                            aria-labelledby="ex1-tab-1">
+                            <span id="ex1-tabs-1-result">
+                            </span>
+                        </div>
+                        <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
+                            <span id="ex1-tabs-2-result">
+                            </span>
+                        </div>
+                        <div class="tab-pane fade" id="ex1-tabs-3" role="tabpanel" aria-labelledby="ex1-tab-3">
+                            <span id="ex1-tabs-3-result">
+                            </span>
+                        </div>
+                        <div class="tab-pane fade" id="ex1-tabs-4" role="tabpanel" aria-labelledby="ex1-tab-4">
+                            <span id="ex1-tabs-4-result">
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Tabs Content End -->
+                </div>
+            </div>
+        </div>
+        <!-- Form End -->
+    </div>
+    <modals>
+        <div class="card-generator-modal-wrapper">
+            <div id="card-generator-modal-overlay" class="fixed inset-0 bg-black opacity-50 hidden"></div>
+            <div id="card-generator-modal" class="bg-secondary rounded h-70 p-4 hidden">
+                <div class="flex items-center justify-center min-h-screen px-4">
+                    <div class="p-6">
+                        <div class="mb-12">
+                            <h2 class="text-lg">Random Card Generator</h2>
+                        </div>
+                        <div class="mb-4">
+                            <div class="form-group gap-8">
+                                <div class="form-field mb-3">
+                                    <label for="floatingInput">BIN</label>
+                                    <input id="binInGenerator" placeholder="531260xxxxxxxxxx" type="bin"
+                                        class="form-control" />
+                                    <label class="form-label hidden" id="binInGenerator-error">
+                                        <span class="form-label-alt text-rose-500">Please enter a valid bin.</span>
+                                    </label>
+                                </div>
+                                <div class="form-field">
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <label>Month</label>
+                                            <select id="monthInGenerator" class="form-select">
+                                                <option>Random</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
+                                                <option>9</option>
+                                                <option>10</option>
+                                                <option>11</option>
+                                                <option>12</option>
+                                            </select>
+                                        </div>
+                                        <div class="col mb-3">
+                                            <label>Year</label>
+                                            <select id="yearInGenerator" class="form-select">
+                                                <option>Random</option>
+                                                <option>2023</option>
+                                                <option>2024</option>
+                                                <option>2025</option>
+                                                <option>2026</option>
+                                                <option>2027</option>
+                                                <option>2028</option>
+                                                <option>2029</option>
+                                                <option>2030</option>
+                                                <option>2031</option>
+                                                <option>2032</option>
+                                                <option>2033</option>
+                                                <option>2034</option>
+                                                <option>2035</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-field">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label>CVV</label>
+                                            <input id="cvvInGenerator" placeholder="Random" type="cvv"
+                                                class="form-control" />
+                                        </div>
+                                        <div class="col">
+                                            <label>Quantity</label>
+                                            <input id="quantityInGenerator" placeholder="Random" type="quantity"
+                                                class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center mt-4 w-full"
+                                    style="display: flex; justify-content: center;">
+                                    <button id="randomCardGenerator" type="submit" class="btn btn-success m-2">
+                                        Submit
+                                    </button>
+                                    <button class="btn btn-danger m-2" onclick="document.getElementById('card-generator-modal').classList.add('hidden');
+                                            document.getElementById('card-generator-modal-overlay').classList.add('hidden')
+                                            document.getElementById('binInGenerator-error')?.classList.add('hidden');">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </modals>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="lib/chart/chart.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/NDEyNDFmaXJzdDIxNDEydDYy.js"></script>
+    <script src="js/MTI1MTI1MTI1c2Vjb25kMjE1MTIzNDEy.js?v=1.0.1"></script>
+    <script src="js/NTQ3NDc4dGhpcmQyMTQxMzY1NA==.js"></script>
+</body>
+
+</html>
